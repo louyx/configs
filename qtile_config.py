@@ -24,6 +24,7 @@ keys = [
     Key([mod], "space", lazy.layout.toggle_split()),
 
     Key([mod],          "c", lazy.spawn("google-chrome")),
+    Key([mod],          "n", lazy.spawn("nautilus")),
     Key([mod],          "Return", lazy.spawn("gnome-terminal")),
     Key([mod, "shift"], "Return", lazy.spawn("gnome-terminal")),
 
@@ -34,6 +35,14 @@ keys = [
     # Key([mod], "w", lazy.window.kill()),
     Key([mod, "shift"], "r", lazy.restart()),
     Key([mod, "shift"], "q", lazy.shutdown()),
+
+    # volume keys
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume 0 +5%")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume 0 -5%")),
+    Key([], "XF86AudioMute",        lazy.spawn("pactl set-sink-mute 0 toggle")),
+    # brightness
+    Key([], "XF86MonBrightnessUp",   lazy.spawn("xbacklight -inc 5%")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 5%")),
 ]
 
 groups = [Group(i) for i in "12345678"]
@@ -61,12 +70,13 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        bottom=bar.Bar(
+        top=bar.Bar(
             [
                 widget.GroupBox(),
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.CurrentLayout(),
+                widget.Volume(),
                 widget.Systray(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
             ],
