@@ -9,6 +9,8 @@ except ImportError:
 
 mod = "mod4"
 
+media_dbus_cmd = " dbus-send --type=method_call --dest=org.mpris.MediaPlayer2.audacious /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player."
+
 keys = [
     Key([mod], "j", lazy.layout.down()),
     Key([mod], "k", lazy.layout.up()),
@@ -43,6 +45,12 @@ keys = [
     # brightness
     Key([], "XF86MonBrightnessUp",   lazy.spawn("xbacklight -inc 5%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 5%")),
+    # player control
+    Key([], "XF86AudioNext" , lazy.spawn(media_dbus_cmd + "Next")),
+    Key([], "XF86AudioPrev" , lazy.spawn(media_dbus_cmd + "Previous")),
+    Key([], "XF86AudioPlay" , lazy.spawn(media_dbus_cmd + "Play")),
+    Key([], "XF86AudioPause", lazy.spawn(media_dbus_cmd + "PlayPause")),
+    Key([], "XF86AudioStop" , lazy.spawn(media_dbus_cmd + "Stop")),
 ]
 
 groups = [Group(i) for i in "12345678"]
